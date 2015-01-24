@@ -24,12 +24,15 @@ public class Miner implements Strategy {
 
     @Override
     public boolean activate() {
-        if (Inventory.getItems().length < 28 && Players.getMyPlayer().getAnimation() == -1) {
+        if (Inventory.getCount() < 28 && Players.getMyPlayer().getAnimation() < 1) {
             for (int i : core.getRockIDs()) {
-                for (SceneObject so : SceneObjects.getNearest(i)) {
-                    if (so != null && so.distanceTo() <= core.getDistance()) {
-                        this.currentObject = so;
-                        return true;
+                SceneObject[] rocks;
+                if ((rocks = SceneObjects.getNearest(i)) != null) {
+                    for (SceneObject so : rocks) {
+                        if (so != null && so.distanceTo() <= core.getDistance()) {
+                            this.currentObject = so;
+                            return true;
+                        }
                     }
                 }
             }
@@ -40,12 +43,12 @@ public class Miner implements Strategy {
     @Override
     public void execute() {
         if (this.currentObject != null){
-            final int inventoryCount = Inventory.getItems().length;
-            currentObject.interact(0);
+            final int previous = Inventory.getCount();
+            currentObject.interact(1);
             Time.sleep(new SleepCondition() {
                 @Override
                 public boolean isValid() {
-                    return Inventory.getItems().length > inventoryCount;
+                    return Inventory.getCount() != previous;
                 }
             }, 7500);
         }

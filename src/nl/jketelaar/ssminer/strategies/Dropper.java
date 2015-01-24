@@ -20,12 +20,12 @@ public class Dropper implements Strategy {
 
     @Override
     public boolean activate() {
-        return Inventory.getItems().length > 27;
+        return Inventory.getCount() >= 28;
     }
 
     @Override
     public void execute() {
-        if (Inventory.getItems().length > 27){
+        if (Inventory.getCount() >= 28){
             for (Item i : Inventory.getItems()){
                 boolean contains = false;
                 for (long i2 : core.getStartingItems()){
@@ -35,12 +35,12 @@ public class Dropper implements Strategy {
                 }
 
                 if (!contains){
-                    final int inventoryCount = Inventory.getItems().length;
+                    final int inventoryCount = Inventory.getCount();
                     i.drop();
                     Time.sleep(new SleepCondition() {
                         @Override
                         public boolean isValid() {
-                            return Inventory.getItems().length > inventoryCount;
+                            return Inventory.getCount() != inventoryCount;
                         }
                     }, 500);
                 }
