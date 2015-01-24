@@ -3,14 +3,12 @@ package nl.jketelaar.ssminer.main;
 import nl.jketelaar.ssminer.strategies.Dropper;
 import nl.jketelaar.ssminer.strategies.Miner;
 import nl.jketelaar.ssminer.ui.JKSSMiner;
-import org.parabot.core.Context;
 import org.parabot.environment.api.utils.Time;
 import org.parabot.environment.scripts.Category;
 import org.parabot.environment.scripts.Script;
 import org.parabot.environment.scripts.ScriptManifest;
 import org.parabot.environment.scripts.framework.SleepCondition;
 import org.parabot.environment.scripts.framework.Strategy;
-import org.soulsplit.accessors.Client;
 import org.soulsplit.api.methods.Inventory;
 import org.soulsplit.api.wrappers.Item;
 
@@ -35,8 +33,6 @@ public class Core extends Script implements Main {
     @Override
     public boolean onExecute() {
         final JKSSMiner gui = new JKSSMiner(this);
-        Client c = (Client) Context.getInstance().getClient();
-        c.getClass();
         while (gui.getFrame().isVisible()){
             Time.sleep(new SleepCondition() {
                 @Override
@@ -44,6 +40,7 @@ public class Core extends Script implements Main {
                     return !gui.getFrame().isVisible();
                 }
             }, 2500);
+            System.out.println("Still waiting for you to get rid of that ui!...");
         }
 
         if (rockID != null) {
