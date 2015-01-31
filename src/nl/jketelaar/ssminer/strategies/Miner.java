@@ -21,7 +21,6 @@ public class Miner implements Strategy {
         this.core = main;
     }
 
-
     @Override
     public boolean activate() {
         if (Inventory.getCount() < 28 && Players.getMyPlayer().getAnimation() < 1) {
